@@ -25,6 +25,14 @@ let PRODUCTS: TProduct[] = [
     price: 300,
     quantity: 300,
   },
+  {
+    id: 4,
+    name: 'Product 4',
+    description:
+      'Ex proident tempor esse ipsum do ut minim quis laboris aute duis exercitation id.',
+    price: 400,
+    quantity: 400,
+  },
 ];
 
 @Injectable()
@@ -52,7 +60,7 @@ export class AppService {
     if (productIndex === -1) {
       throw new NotFoundException();
     }
-    PRODUCTS[productIndex] = updatedProduct;
+    PRODUCTS[productIndex] = { ...updatedProduct, id };
   }
 
   delete(id: number): void {

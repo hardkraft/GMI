@@ -9,7 +9,7 @@ type TProductProps = {
   product: TProduct;
 };
 
-const Product: FC<TProductProps> = ({ product }) => {
+const EditProduct: FC<TProductProps> = ({ product }) => {
   return (
     <div>
       <Link href={'/'}>Home</Link>
@@ -32,4 +32,4 @@ export const getServerSideProps: GetServerSideProps<TProductProps> = async (
   return { props: { product } };
 };
 
-export default Product;
+export default EditProduct;

@@ -4,7 +4,6 @@ import { FC } from 'react';
 import { TProduct } from 'src/shared/types/product';
 import { fetch } from 'src/shared/fetch';
 import label from 'src/shared/label';
-import { CONFIG } from 'src/server/config';
 
 type THomeProps = {
   products: TProduct[];
@@ -13,7 +12,7 @@ type THomeProps = {
 const Home: FC<THomeProps> = ({ products = [] }) => {
   return (
     <div>
-      <h1>{label('Products', CONFIG.language)}</h1>
+      <h1>{label('Products')}</h1>
       {products.map(({ name, description, id }) => (
         <div key={id}>
           <Link href={`/${id}`}>{name}</Link>
