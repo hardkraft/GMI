@@ -9,11 +9,14 @@ import {
   Render,
   Patch,
   Redirect,
+  Res,
+  Req,
 } from '@nestjs/common';
 import { UseInterceptors } from '@nestjs/common';
 import { ParamsInterceptor } from './params.interceptor';
 import { AppService } from './app.service';
 import { TProduct } from 'src/shared/types/product';
+import { NoFilesInterceptor } from '@nestjs/platform-express';
 
 @Controller()
 export class AppController {
@@ -60,10 +63,11 @@ export class AppController {
   @Post('/api/products/create/')
   @Redirect('/')
   public createProduct(@Body() product: TProduct) {
+    console.log(product);
     this.appService.create(product);
   }
-  @Patch('/api/products/update/:id')
-  @Redirect(':id')
+  @Post('/api/products/update/:id')
+  @Redirect('/')
   public updateProductById(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() updatedProduct: TProduct,

@@ -51,7 +51,10 @@ export class AppService {
   }
 
   create(product: TProduct): void {
-    PRODUCTS.push(product);
+    PRODUCTS.push({
+      ...product,
+      id: +Math.random().toString().substring(3, 7),
+    });
   }
 
   update(id: number, updatedProduct: TProduct): void {

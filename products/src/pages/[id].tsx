@@ -27,6 +27,7 @@ export const getServerSideProps: GetServerSideProps<TProductProps> = async (
   ctx,
 ) => {
   const id = ctx.query.id;
+  console.log(id);
   const product = await fetch(`/api/products/${id}`);
 
   return { props: { product } };

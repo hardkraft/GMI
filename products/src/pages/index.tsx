@@ -10,6 +10,7 @@ type THomeProps = {
 };
 
 const Home: FC<THomeProps> = ({ products = [] }) => {
+  console.log(products);
   return (
     <div>
       <h1>{label('Products')}</h1>
@@ -23,10 +24,7 @@ const Home: FC<THomeProps> = ({ products = [] }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<THomeProps> = async (
-  ctx,
-) => {
-  console.log(ctx);
+export const getServerSideProps: GetServerSideProps<THomeProps> = async () => {
   const products = await fetch('/api/products');
   return { props: { products } };
 };
