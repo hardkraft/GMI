@@ -4,6 +4,8 @@ import { FC } from 'react';
 import { products as TProduct } from '@prisma/client';
 import { fetch } from 'src/shared/fetch';
 import ProductForm from './components/ProductForm';
+import label from 'src/shared/label';
+import global from './styles/global.module.scss';
 
 type TProductProps = {
   product: TProduct;
@@ -11,8 +13,8 @@ type TProductProps = {
 
 const EditProduct: FC<TProductProps> = ({ product }) => {
   return (
-    <div>
-      <Link href={'/'}>Home</Link>
+    <div className={global.global}>
+      <Link href={'/'}>{`${label('Home')}`}</Link>
       <ProductForm
         product={product}
         path={`/api/products/update/${product.id}`}

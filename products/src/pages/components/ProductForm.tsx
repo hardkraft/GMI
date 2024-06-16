@@ -2,6 +2,8 @@ import { FC, FormEvent } from 'react';
 import label from 'src/shared/label';
 import { products as TProduct } from '@prisma/client';
 import { useRouter } from 'next/router';
+import global from '../styles/global.module.scss';
+import styles from '../styles/form.module.scss';
 
 type TFormProps = {
   product?: TProduct;
@@ -33,8 +35,8 @@ const ProductForm: FC<TFormProps> = ({ product, path, method = 'POST' }) => {
     }
   }
   return (
-    <div>
-      <form onSubmit={onSubmit}>
+    <div className={global.global}>
+      <form className={styles.form} onSubmit={onSubmit}>
         <div>
           <label htmlFor="name">{`${label('Name')}`}</label>
           <input
@@ -51,8 +53,8 @@ const ProductForm: FC<TFormProps> = ({ product, path, method = 'POST' }) => {
           <label htmlFor="description">{`${label('Description')}`}</label>
           <textarea
             name="description"
-            rows={4}
-            cols={50}
+            rows={8}
+            cols={20}
             defaultValue={product?.description}
             minLength={5}
             maxLength={400}

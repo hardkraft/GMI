@@ -1,0 +1,32 @@
+.global {
+  padding: 0;
+  margin: 20px;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    sans-serif;
+  line-height: 1.6;
+  font-size: 20px;
+
+  a {
+    text-decoration: none;
+    font-weight: 600;
+    margin-right: 30px;
+    padding-top: 1rem;
+    display: inline-block;
+  }
+
+  span {
+    display: block;
+    padding-top: 1rem;
+    font-weight: 600;
+  }
+}

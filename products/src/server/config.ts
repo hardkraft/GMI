@@ -1,5 +1,5 @@
 const CONFIG = {
-  language: 'en',
+  language: 'pl',
   features: {},
 };
 

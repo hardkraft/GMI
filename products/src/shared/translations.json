@@ -1,9 +1,14 @@
 {
   "pl": {
+    "Home": "Do Domu",
     "Name": "Nazwa",
     "Products": "Produkty",
     "Description": "Opis",
     "Price": "Cena",
-    "Quantity": "Ilość"
+    "Quantity": "Ilość",
+    "Add": "Dodaj",
+    "Edit": "Edytuj",
+    "Delete": "Wymaż",
+    "New Product": "Nowy Produkt"
   }
 }

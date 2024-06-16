@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { products as TProduct } from '@prisma/client';
 import { fetch } from 'src/shared/fetch';
 import label from 'src/shared/label';
+import global from './styles/global.module.scss';
 
 type TProductProps = {
   product: TProduct;
@@ -11,14 +12,19 @@ type TProductProps = {
 
 const Product: FC<TProductProps> = ({ product }) => {
   return (
-    <div>
-      <Link href={'/'}>Home</Link>
-      <h1>{product.name}</h1>
-      <p>{`${label('Description')} ${product.description}`}</p>
-      <p>{`${label('Price')} ${product.price}`}</p>
-      <p>{`${label('Quantity')} ${product.quantity}`}</p>
-      <Link href={`/edit/${product.id}`}>edit</Link>
-      <Link href={`/delete/${product.id}`}>delete</Link>
+    <div className={global.global}>
+      <Link href={'/'}>{`${label('Home')}`}</Link>
+      <h2>{product.name}</h2>
+      <span>{`${label('Description')}`}</span>
+      <div>{`${product.description}`}</div>
+
+      <span>{`${label('Price')}`}</span>
+      <div>{`${product.price}`}</div>
+
+      <span>{`${label('Quantity')}`}</span>
+      <div>{`${product.quantity}`}</div>
+      <Link href={`/edit/${product.id}`}>{`${label('Edit')}`}</Link>
+      <Link href={`/delete/${product.id}`}>{`${label('Delete')}`}</Link>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { products as TProduct } from '@prisma/client';
 import { fetch } from 'src/shared/fetch';
 import label from 'src/shared/label';
+import global from './styles/global.module.scss';
 
 type THomeProps = {
   products: TProduct[];
@@ -11,13 +12,13 @@ type THomeProps = {
 
 const Home: FC<THomeProps> = ({ products = [] }) => {
   return (
-    <div>
-      <h1>{label('Products')}</h1>
-      <Link href={'/create'}>+</Link>
+    <div className={global.global}>
+      <h2 style={{ display: 'inline' }}>{label('Products')} </h2>
+      <Link href={'/create'}> +{label('Add')}</Link>
       {products.map(({ name, description, id }) => (
         <div key={id}>
           <Link href={`/${id}`}>{name}</Link>
-          <p>{description}</p>
+          <div>{description}</div>
         </div>
       ))}
     </div>
