@@ -4,6 +4,7 @@ import { RenderModule } from 'nest-next';
 import { NODE_ENV } from 'src/shared/constants/env';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PrismaService } from './prisma.service';
 
 declare const module: any;
 
@@ -30,7 +31,7 @@ export class AppModule {
       module: AppModule,
       imports: [renderModule],
       controllers: [AppController],
-      providers: [AppService],
+      providers: [AppService, PrismaService],
     };
   }
 }

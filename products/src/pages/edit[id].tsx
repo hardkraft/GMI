@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { FC } from 'react';
-import { TProduct } from 'src/shared/types/product';
+import { products as TProduct } from '@prisma/client';
 import { fetch } from 'src/shared/fetch';
 import ProductForm from './components/ProductForm';
 
@@ -16,6 +16,7 @@ const EditProduct: FC<TProductProps> = ({ product }) => {
       <ProductForm
         product={product}
         path={`/api/products/update/${product.id}`}
+        method="PUT"
       />
     </div>
   );

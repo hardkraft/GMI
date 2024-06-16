@@ -1,48 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { TProduct } from '../shared/types/product';
-
-let PRODUCTS: TProduct[] = [
-  {
-    id: 1,
-    name: 'Product 1',
-    description:
-      'Aute laboris consectetur ullamco elit excepteur qui fugiat adipisicing excepteur in ea culpa occaecat.',
-    price: 100,
-    quantity: 100,
-  },
-  {
-    id: 2,
-    name: 'Product 2',
-    description:
-      'Ipsum nostrud aliqua officia labore elit adipisicing deserunt elit.',
-    price: 200,
-    quantity: 200,
-  },
-  {
-    id: 3,
-    name: 'Product 3',
-    description: 'Minim do aliquip voluptate do ipsum.',
-    price: 300,
-    quantity: 300,
-  },
-  {
-    id: 4,
-    name: 'Product 4',
-    description:
-      'Ex proident tempor esse ipsum do ut minim quis laboris aute duis exercitation id.',
-    price: 400,
-    quantity: 400,
-  },
-];
+import { PrismaService } from 'src/server/prisma.service';
+import { Prisma, products as TProduct } from '@prisma/client';
 
 @Injectable()
 export class AppService {
-  getAll(): TProduct[] {
-    return PRODUCTS;
+  constructor(private prisma: PrismaService) {}
+  async getAll(): Promise<TProduct[]> {
+    return this.prisma.products.findMany();
   }
 
-  getOne(id: number): TProduct {
-    const product = PRODUCTS.find((product) => product.id === id);
+  async getOne(id: number): Promise<TProduct | null> {
+    const product = this.prisma.products.findUnique({ where: { id: +id } });
 
     if (!product) {
       throw new NotFoundException();
@@ -50,23 +18,22 @@ export class AppService {
     return product;
   }
 
-  create(product: TProduct): void {
-    PRODUCTS.push({
-      ...product,
-      id: +Math.random().toString().substring(3, 7),
+  async create(data: TProduct): Promise<TProduct> {
+    return this.prisma.products.create({
+      data,
     });
   }
 
-  update(id: number, updatedProduct: TProduct): void {
-    const productIndex = PRODUCTS.findIndex((product) => product.id === id);
-
-    if (productIndex === -1) {
-      throw new NotFoundException();
-    }
-    PRODUCTS[productIndex] = { ...updatedProduct, id };
+  async update(id: number, data: TProduct): Promise<TProduct> {
+    return this.prisma.products.update({
+      where: { id: Number(id) },
+      data,
+    });
   }
 
-  delete(id: number): void {
-    PRODUCTS = PRODUCTS.filter((product) => product.id !== id);
+  async delete(id: number): Promise<TProduct> {
+    return this.prisma.products.delete({
+      where: { id: Number(id) },
+    });
   }
 }

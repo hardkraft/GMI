@@ -7,16 +7,14 @@ import {
   Delete,
   ParseIntPipe,
   Render,
-  Patch,
   Redirect,
-  Res,
-  Req,
+  Put,
 } from '@nestjs/common';
 import { UseInterceptors } from '@nestjs/common';
 import { ParamsInterceptor } from './params.interceptor';
 import { AppService } from './app.service';
-import { TProduct } from 'src/shared/types/product';
-import { NoFilesInterceptor } from '@nestjs/platform-express';
+import { products as TProduct } from '@prisma/client';
+// import { TProduct } from 'src/shared/types/product';
 
 @Controller()
 export class AppController {
@@ -61,13 +59,10 @@ export class AppController {
     return this.appService.getOne(id);
   }
   @Post('/api/products/create/')
-  @Redirect('/')
   public createProduct(@Body() product: TProduct) {
-    console.log(product);
     this.appService.create(product);
   }
-  @Post('/api/products/update/:id')
-  @Redirect('/')
+  @Put('/api/products/update/:id')
   public updateProductById(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() updatedProduct: TProduct,

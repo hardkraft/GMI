@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model products {
+  id          Int      @id(map: "products_pk") @default(dbgenerated("(nextval('products_id_seq'::regclass) + 11)"))
+  name        String   @db.VarChar
+  description String
+  price       Decimal  @default(1000000) @db.Money
+  quantity    Int      @default(0)
+  timestamp   DateTime @default(now()) @db.Timestamptz(6)
+  document    Json?    @db.Json
+
+  @@index([id])
+}

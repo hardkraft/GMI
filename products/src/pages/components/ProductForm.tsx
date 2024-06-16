@@ -1,28 +1,33 @@
 import { FC, FormEvent } from 'react';
 import label from 'src/shared/label';
-import { TProduct } from 'src/shared/types/product';
+import { products as TProduct } from '@prisma/client';
+import { useRouter } from 'next/router';
 
 type TFormProps = {
   product?: TProduct;
   path: string;
+  method?: string;
 };
 
-const ProductForm: FC<TFormProps> = ({ product, path }) => {
+const ProductForm: FC<TFormProps> = ({ product, path, method = 'POST' }) => {
+  const router = useRouter();
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     try {
       const formData = new FormData(event.currentTarget);
-      const data = {};
+      const data = {} as TProduct;
       for (const entry of formData.entries()) data[entry[0]] = entry[1];
+      data.quantity = +data.quantity;
 
       await fetch(path, {
-        method: 'POST',
+        method,
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json',
         },
       });
+      router.push('/');
     } catch (e) {
       console.error(e);
     }
@@ -59,7 +64,7 @@ const ProductForm: FC<TFormProps> = ({ product, path }) => {
           <input
             type="number"
             name="price"
-            defaultValue={product?.price}
+            defaultValue={product?.price.toString()}
             minLength={1}
             maxLength={5}
             required

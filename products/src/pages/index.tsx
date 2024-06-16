@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { FC } from 'react';
-import { TProduct } from 'src/shared/types/product';
+import { products as TProduct } from '@prisma/client';
 import { fetch } from 'src/shared/fetch';
 import label from 'src/shared/label';
 
@@ -10,10 +10,10 @@ type THomeProps = {
 };
 
 const Home: FC<THomeProps> = ({ products = [] }) => {
-  console.log(products);
   return (
     <div>
       <h1>{label('Products')}</h1>
+      <Link href={'/create'}>+</Link>
       {products.map(({ name, description, id }) => (
         <div key={id}>
           <Link href={`/${id}`}>{name}</Link>
