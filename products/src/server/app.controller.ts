@@ -14,7 +14,6 @@ import { UseInterceptors } from '@nestjs/common';
 import { ParamsInterceptor } from './params.interceptor';
 import { AppService } from './app.service';
 import { products as TProduct } from '@prisma/client';
-// import { TProduct } from 'src/shared/types/product';
 
 @Controller()
 export class AppController {
@@ -24,8 +23,8 @@ export class AppController {
   @Get('/')
   @Render('index')
   @UseInterceptors(ParamsInterceptor)
-  home() {
-    return;
+  public home() {
+    return 'Home';
   }
 
   @Get(':id')

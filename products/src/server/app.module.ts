@@ -1,7 +1,7 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import Next from 'next';
+import { NODE_ENV } from '../shared/constants/env';
 import { RenderModule } from 'nest-next';
-import { NODE_ENV } from 'src/shared/constants/env';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaService } from './prisma.service';
