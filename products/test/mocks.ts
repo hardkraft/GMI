@@ -1,5 +1,4 @@
-import { products as TProduct } from '@prisma/client';
-import { Prisma } from '@prisma/client';
+import { Prisma, products as TProduct } from '@prisma/client';
 
 export const product: TProduct = {
   id: 1,

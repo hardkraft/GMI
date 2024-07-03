@@ -2,8 +2,7 @@ import { FC, FormEvent } from 'react';
 import label from 'src/shared/label';
 import { products as TProduct } from '@prisma/client';
 import { useRouter } from 'next/router';
-import global from '../styles/global.module.scss';
-import styles from '../styles/form.module.scss';
+import { Box, Button, TextField } from '@mui/material';
 
 type TFormProps = {
   product?: TProduct;
@@ -35,58 +34,68 @@ const ProductForm: FC<TFormProps> = ({ product, path, method = 'POST' }) => {
     }
   }
   return (
-    <div className={global.global}>
-      <form className={styles.form} onSubmit={onSubmit}>
-        <div>
-          <label htmlFor="name">{`${label('Name')}`}</label>
-          <input
-            type="text"
-            name="name"
-            defaultValue={product?.name}
-            placeholder={`${label('Name')}`}
-            minLength={5}
-            maxLength={120}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="description">{`${label('Description')}`}</label>
-          <textarea
-            name="description"
-            rows={8}
-            cols={20}
-            defaultValue={product?.description}
-            minLength={5}
-            maxLength={400}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="price">{`${label('Price')}`}</label>
-          <input
-            type="number"
-            name="price"
-            defaultValue={product?.price.toString()}
-            minLength={1}
-            maxLength={5}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="quantity">{`${label('Quantity')}`}</label>
-          <input
-            type="number"
-            name="quantity"
-            defaultValue={product?.quantity}
-            minLength={1}
-            maxLength={5}
-            required
-          />
-        </div>
+    <Box
+      component="form"
+      sx={{
+        '& .MuiTextField-root': { m: 1, width: '40ch' },
+      }}
+      onSubmit={onSubmit}
+    >
+      <div>
+        <TextField
+          id="name"
+          label={`${label('Name')}`}
+          variant="outlined"
+          type="text"
+          name="name"
+          defaultValue={product?.name}
+          placeholder={`${label('Name')}`}
+          autoFocus
+          inputProps={{ minLength: 5, maxLength: 120 }}
+          required
+        />
+      </div>
+      <div>
+        <TextField
+          name="description"
+          label={`${label('Description')}`}
+          defaultValue={product?.description}
+          inputProps={{ minLength: 5, maxLength: 400, cols: 20 }}
+          multiline
+          rows={8}
+          required
+        />
+      </div>
+      <div>
+        <TextField
+          id="price"
+          label={`${label('Price')}`}
+          variant="outlined"
+          name="price"
+          defaultValue={product?.price.toString()}
+          placeholder={`${label('Price')}`}
+          inputProps={{ minLength: 1, maxLength: 8 }}
+          required
+        />
+      </div>
+      <div>
+        <TextField
+          id="quantity"
+          label={`${label('Quantity')}`}
+          variant="outlined"
+          type="decimal"
+          name="quantity"
+          defaultValue={product?.quantity.toString()}
+          placeholder={`${label('Quantity')}`}
+          inputProps={{ min: 0, max: 1000000 }}
+          required
+        />
+      </div>
 
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+      <Button variant="contained" type="submit" sx={{ mt: 4 }}>
+        Save
+      </Button>
+    </Box>
   );
 };
 
