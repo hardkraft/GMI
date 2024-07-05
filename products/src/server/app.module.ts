@@ -5,6 +5,7 @@ import { RenderModule } from 'nest-next';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaService } from './prisma.service';
+import { HttpModule } from '@nestjs/axios';
 
 declare const module: any;
 
@@ -29,7 +30,7 @@ export class AppModule {
 
     return {
       module: AppModule,
-      imports: [renderModule],
+      imports: [renderModule, HttpModule],
       controllers: [AppController],
       providers: [AppService, PrismaService],
     };

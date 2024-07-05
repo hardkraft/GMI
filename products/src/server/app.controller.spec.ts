@@ -7,6 +7,7 @@ import { product } from '../../test/mocks';
 describe('AppController', () => {
   let appController: AppController;
   let appService: AppService;
+  const res = { redirect: jest.fn((x) => x) };
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -56,16 +57,22 @@ describe('AppController', () => {
 
   describe('createProduct', () => {
     it('should create a product', async () => {
-      jest.spyOn(appService, 'create').mockImplementation(() => undefined);
-      expect(await appController.createProduct(product)).toBeUndefined();
+      jest.spyOn(appService, 'create').mockImplementation(async () => product);
+      expect(await appController.createProduct(product)).toStrictEqual({
+        path: '/',
+        error: null,
+      });
       expect(appService.create).toHaveBeenCalledWith(product);
     });
   });
 
   describe('updateProductById', () => {
     it('should update a product', async () => {
-      jest.spyOn(appService, 'update').mockImplementation(() => undefined);
-      expect(await appController.updateProductById(1, product)).toBeUndefined();
+      jest.spyOn(appService, 'update').mockImplementation(async () => product);
+      expect(await appController.updateProductById(1, product)).toStrictEqual({
+        path: '/',
+        error: null,
+      });
       expect(appService.update).toHaveBeenCalledWith(1, product);
     });
   });

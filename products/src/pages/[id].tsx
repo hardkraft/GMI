@@ -15,6 +15,8 @@ type TProductProps = {
   product: TProduct;
 };
 
+// Displays product details
+// Allows to edit, delete or go home
 const Product: FC<TProductProps> = ({ product }) => {
   const right = () => {
     return (

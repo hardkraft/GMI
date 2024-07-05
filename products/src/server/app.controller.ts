@@ -9,6 +9,7 @@ import {
   Render,
   Redirect,
   Put,
+  All,
 } from '@nestjs/common';
 import { UseInterceptors } from '@nestjs/common';
 import { ParamsInterceptor } from './params.interceptor';
@@ -20,9 +21,8 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   // Pages
-  @Get('/')
+  @All('/')
   @Render('index')
-  @UseInterceptors(ParamsInterceptor)
   public home() {
     return 'Home';
   }
@@ -43,9 +43,15 @@ export class AppController {
 
   @Get('create')
   @Render('create')
-  @UseInterceptors(ParamsInterceptor)
   public saveProduct() {
     return;
+  }
+
+  @Post('error')
+  @Render('error')
+  public error(@Body() error: string) {
+    console.log(error);
+    return { error };
   }
 
   // API
@@ -53,21 +59,37 @@ export class AppController {
   public listProducts() {
     return this.appService.getAll();
   }
+
   @Get('/api/products/:id')
   public getProductById(@Param('id', new ParseIntPipe()) id: number) {
     return this.appService.getOne(id);
   }
+
   @Post('/api/products/create/')
-  public createProduct(@Body() product: TProduct) {
-    this.appService.create(product);
+  public async createProduct(@Body() product: TProduct) {
+    const _product = await this.appService.create(product);
+    if (_product) return { path: '/', error: null };
+    else
+      return {
+        path: '/error',
+        error: `Update of ${product.name} failed. Make sure all the data is correct \n${JSON.stringify(product)}`,
+      };
   }
+
   @Put('/api/products/update/:id')
-  public updateProductById(
+  public async updateProductById(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() updatedProduct: TProduct,
   ) {
-    this.appService.update(id, updatedProduct);
+    const product = await this.appService.update(id, updatedProduct);
+    if (product) return { path: '/', error: null };
+    else
+      return {
+        path: '/error',
+        error: `Update of ${updatedProduct.name} failed. Make sure all the data is correct \n${JSON.stringify(updatedProduct)}`,
+      };
   }
+
   @Get('delete/:id')
   @Delete('/api/products/delete/:id')
   @Redirect('/')

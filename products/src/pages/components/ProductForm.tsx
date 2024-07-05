@@ -1,6 +1,6 @@
-import { FC, FormEvent } from 'react';
+import { FC, FormEvent, useState } from 'react';
 import label from 'src/shared/label';
-import { products as TProduct } from '@prisma/client';
+import { products as TProduct, Prisma } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { Box, Button, TextField } from '@mui/material';
 
@@ -12,6 +12,7 @@ type TFormProps = {
 
 const ProductForm: FC<TFormProps> = ({ product, path, method = 'POST' }) => {
   const router = useRouter();
+  const [error, setError] = useState<string>(null);
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -20,15 +21,19 @@ const ProductForm: FC<TFormProps> = ({ product, path, method = 'POST' }) => {
       const data = {} as TProduct;
       for (const entry of formData.entries()) data[entry[0]] = entry[1];
       data.quantity = +data.quantity;
+      data.price = new Prisma.Decimal(+data.price);
 
-      await fetch(path, {
+      const res = await fetch(path, {
         method,
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      router.push('/');
+      const resBody = await res.json();
+      console.log(1, resBody);
+      if (resBody.path === '/error') setError(resBody.error);
+      else router.push(resBody.path);
     } catch (e) {
       console.error(e);
     }
@@ -36,6 +41,7 @@ const ProductForm: FC<TFormProps> = ({ product, path, method = 'POST' }) => {
   return (
     <Box
       component="form"
+      action="/"
       sx={{
         '& .MuiTextField-root': { m: 1, width: '40ch' },
       }}
@@ -83,7 +89,7 @@ const ProductForm: FC<TFormProps> = ({ product, path, method = 'POST' }) => {
           id="quantity"
           label={`${label('Quantity')}`}
           variant="outlined"
-          type="decimal"
+          type="number"
           name="quantity"
           defaultValue={product?.quantity.toString()}
           placeholder={`${label('Quantity')}`}
@@ -95,6 +101,12 @@ const ProductForm: FC<TFormProps> = ({ product, path, method = 'POST' }) => {
       <Button variant="contained" type="submit" sx={{ mt: 4 }}>
         Save
       </Button>
+      {error && (
+        <Box
+          typography="body2"
+          sx={{ whiteSpace: 'pre-wrap', color: 'darkred' }}
+        >{`\n\nSomething went wrong \n\n${error.replaceAll(',', ',\n')}`}</Box>
+      )}
     </Box>
   );
 };
